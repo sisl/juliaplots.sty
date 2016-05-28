@@ -2,7 +2,10 @@
 
 This package makes it easy to integrate Julia code and plots into latex documents. It sits on top of [pythontex](https://www.ctan.org/pkg/pythontex?lang=en), which comes bundled with TexLive and MikTeX. Python must be installed along with the other dependencies of pythontex (e.g., pygments).
 
+To install this package, just download [juliaplots.sty](https://github.com/sisl/juliaplots.sty/raw/master/juliaplots.sty) file and place it in the directory of your document.
+
 The package currently supports the following Julia plotting packages:
+
 1. [PGFPlots.jl](https://github.com/sisl/PGFPlots.jl)
 2. [PyPlot.jl](https://github.com/stevengj/PyPlot.jl)
 3. [Gadfly.jl](https://github.com/dcjones/Gadfly.jl)
@@ -42,3 +45,7 @@ The functionality that is added by juliaplots.jl is the `\plot` command, which w
 To create your document, run `lualatex mytexfile.tex` (or similar command), then `pythontex mytexfile.tex`, and then `lualatex mytexfile.tex`. If you have trouble with the generation of your plot, see the error output from pythontex.
 
 This repository contains example tex files and their associated PDF files.
+
+### Future work
+
+In the future, we would like to support [Plots.jl](https://github.com/tbreloff/Plots.jl).
