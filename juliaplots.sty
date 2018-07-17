@@ -1,12 +1,11 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{juliaplots}
 
-\RequirePackage[usefamily={jl,julia}]{pythontex}
+\RequirePackage[usefamily={jl,julia,juliacon}]{pythontex}
 \RequirePackage{pgfplots}
 \RequirePackage{graphicx}
 
-
-\begin{jlcode}	
+\begin{jlcode}
 	cur_plot = nothing
 	function plot_pgfplots(args...; kwags...)
 	global cur_plot
@@ -19,18 +18,22 @@
 \end{jlcode}
 
 \DeclareOption{pgfplots}{
-\newcommand{\plot}[1]{\jlc{save("#1.tex", cur_plot, include_preamble=false)}\input{#1}}	
+\DeclareRobustCommand{\plot}[1]{
+\IfFileExists{#1.tex}{}{\newwrite\file
+	\immediate\openout\file=#1.tex
+	\closeout\file}
+	\jlc{save("#1.tex", cur_plot, include_preamble=false)}\input{#1}}
 \jlc{using PGFPlots}
 \jlc{plot(args...; kwags...) = plot_pgfplots(args...; kwags...)}
 }
 
 \DeclareOption{pyplot}{
-	\newcommand{\plot}[2]{\jlc{savefig("#1.pdf")}\includegraphics[#2]{#1.pdf}}	
+	\newcommand{\plot}[2]{\jlc{savefig("#1.pdf")}\includegraphics[#2]{#1.pdf}}
 	\jlc{using PyPlot}
 }
 
 \DeclareOption{gadfly}{
-	\newcommand{\plot}[4]{\jlc{draw(PDF("#1.pdf", #2, #3), cur_plot)}\includegraphics[#4]{#1.pdf}}	
+	\newcommand{\plot}[4]{\jlc{draw(PDF("#1.pdf", #2, #3), cur_plot)}\includegraphics[#4]{#1.pdf}}
 	\jlc{using Gadfly}
 	\jlc{plot(args...; kwags...) = plot_gadfly(args...; kwags...)}
 }
