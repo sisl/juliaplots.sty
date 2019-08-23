@@ -5,8 +5,13 @@
 \RequirePackage{pgfplots}
 \RequirePackage{graphicx}
 
+
 \begin{jlcode}
 	cur_plot = nothing
+	function plot_plots_pgfplots(args...; kwags...)
+		global cur_plot
+		cur_plot = Plots.plot(args...; kwags...)
+	end
 	function plot_pgfplots(args...; kwags...)
 		global cur_plot
 		cur_plot = PGFPlots.plot(args...; kwags...)
@@ -16,6 +21,16 @@
 		cur_plot = Gadfly.plot(args...; kwags...)
 	end
 \end{jlcode}
+
+DeclareOption{plots_pgfplots}{
+\DeclareRobustCommand{\plot}[1]{
+\IfFileExists{#1.tex}{}{\newwrite\file
+	\immediate\openout\file=#1.tex
+	\closeout\file}
+	\jlc{savefig(cur_plot, "#1.tex")}\input{#1}}
+\jlc{using Plots;pgfplots()}
+\jlc{plot(args...; kwags...) = plot_plots_pgfplots(args...; kwags...)}
+}
 
 \DeclareOption{pgfplots}{
 \DeclareRobustCommand{\plot}[1]{
