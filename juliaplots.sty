@@ -15,6 +15,7 @@
 	function plot_pgfplots(args...; kwags...)
 		global cur_plot
 		cur_plot = PGFPlots.plot(args...; kwags...)
+	end
 	function plot_gadfly(args...; kwags...)
 		global cur_plot
 		cur_plot = Gadfly.plot(args...; kwags...)
