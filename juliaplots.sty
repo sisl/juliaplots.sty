@@ -25,15 +25,6 @@
 \end{jlcode}
 
 
-\DeclareRobustCommand{\plot}[1]{
-	\IfFileExists{#1.tex}{}{
-	\immediate\openoutputfile{#1.tex}{juliaplot}
-	\immediate\closeoutputstream{juliaplot}
-	}
-	\jlc{save("#1.tex", cur_plot, include_preamble=false)}\input{#1}
-}
-
-
 DeclareOption{plots_pgfplots}{
 \DeclareRobustCommand{\plot}[1]{
 	\IfFileExists{#1.tex}{}{
