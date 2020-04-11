@@ -4,7 +4,9 @@
 \RequirePackage[usefamily={jl,julia,juliacon}]{pythontex}
 \RequirePackage{pgfplots}
 \RequirePackage{graphicx}
+\RequirePackage{newfile}
 
+\newoutputstream{juliaplot}
 
 \begin{jlcode}
 	cur_plot = nothing
@@ -22,11 +24,22 @@
 	end
 \end{jlcode}
 
+
+\DeclareRobustCommand{\plot}[1]{
+	\IfFileExists{#1.tex}{}{
+	\immediate\openoutputfile{#1.tex}{juliaplot}
+	\immediate\closeoutputstream{juliaplot}
+	}
+	\jlc{save("#1.tex", cur_plot, include_preamble=false)}\input{#1}
+}
+
+
 DeclareOption{plots_pgfplots}{
 \DeclareRobustCommand{\plot}[1]{
-\IfFileExists{#1.tex}{}{\newwrite\file
-	\immediate\openout\file=#1.tex
-	\closeout\file}
+	\IfFileExists{#1.tex}{}{
+	\immediate\openoutputfile{#1.tex}{juliaplot}
+	\immediate\closeoutputstream{juliaplot}
+	}
 	\jlc{savefig(cur_plot, "#1.tex")}\input{#1}}
 \jlc{using Plots;pgfplots()}
 \jlc{plot(args...; kwags...) = plot_plots_pgfplots(args...; kwags...)}
@@ -34,9 +47,10 @@ DeclareOption{plots_pgfplots}{
 
 \DeclareOption{pgfplots}{
 \DeclareRobustCommand{\plot}[1]{
-\IfFileExists{#1.tex}{}{\newwrite\file
-	\immediate\openout\file=#1.tex
-	\closeout\file}
+	\IfFileExists{#1.tex}{}{
+	\immediate\openoutputfile{#1.tex}{juliaplot}
+	\immediate\closeoutputstream{juliaplot}
+	}
 	\jlc{save("#1.tex", cur_plot, include_preamble=false)}\input{#1}}
 \jlc{using PGFPlots}
 \jlc{plot(args...; kwags...) = plot_pgfplots(args...; kwags...)}
