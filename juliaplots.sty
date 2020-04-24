@@ -6,6 +6,8 @@
 \RequirePackage{graphicx}
 \RequirePackage{newfile}
 
+\pgfplotsset{compat=newest}
+
 \newoutputstream{juliaplot}
 
 \begin{jlcode}
@@ -48,8 +50,11 @@
 }
 
 \DeclareOption{pyplot}{
-	\newcommand{\plot}[2]{\jlc{savefig("#1.pdf")}\includegraphics[#2]{#1.pdf}}
-	\jlc{using PyPlot}
+\DeclareRobustCommand{\plot}[2]{
+	\IfFileExists{#1.pdf}{\includegraphics[#2]{#1}}{
+	}
+	\jlc{using PyPlot; savefig("#1.pdf")}}
+\jlc{using PyPlot}
 }
 
 \DeclareOption{gadfly}{
