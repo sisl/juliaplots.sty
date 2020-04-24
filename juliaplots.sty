@@ -25,7 +25,7 @@
 \end{jlcode}
 
 
-DeclareOption{plots_pgfplots}{
+\DeclareOption{plots_pgfplots}{
 \DeclareRobustCommand{\plot}[1]{
 	\IfFileExists{#1.tex}{}{
 	\immediate\openoutputfile{#1.tex}{juliaplot}
