@@ -1,6 +1,6 @@
 # juliaplots.sty
 
-This package makes it easy to integrate Julia code and plots into latex documents. It sits on top of [pythontex](https://www.ctan.org/pkg/pythontex?lang=en), which comes bundled with TexLive and MikTeX. Python must be installed along with the other dependencies of pythontex (e.g., pygments).
+This package makes it easy to integrate Julia code and plots into latex documents. It sits on top of [pythontex](https://www.ctan.org/pkg/pythontex?lang=en) (version 0.17 or later), which comes bundled with TexLive and MikTeX. Python must be installed along with the other dependencies of pythontex (e.g., pygments).
 
 To install this package, just download [juliaplots.sty](https://github.com/sisl/juliaplots.sty/raw/master/juliaplots.sty) file and place it in the directory of your document.
 
