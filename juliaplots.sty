@@ -11,6 +11,17 @@
 		global cur_plot
 		cur_plot = PGFPlots.plot(args...; kwags...)
 	end
+
+	function plot_pgfplotsx(object, args...; kwags...)
+		println("test")
+		global cur_plot
+		cur_plot = object
+		if length(args) + length(kwags) > 0
+		    @warn "All additional arguments to plot() ignored! Please pass a TikZDocument or TikZFigure directly."
+		end
+		return cur_plot
+	end
+
 	function plot_gadfly(args...; kwags...)
 		global cur_plot
 		cur_plot = Gadfly.plot(args...; kwags...)
@@ -26,6 +37,17 @@
 \jlc{using PGFPlots}
 \jlc{plot(args...; kwags...) = plot_pgfplots(args...; kwags...)}
 }
+
+\DeclareOption{pgfplotsx}{
+\DeclareRobustCommand{\plot}[1]{
+\IfFileExists{#1.tex}{}{\newwrite\file
+	\immediate\openout\file=#1.tex
+	\closeout\file}
+	\jlc{pgfsave("#1.tex", cur_plot; include_preamble=false)}\input{#1}}
+\jlc{using PGFPlotsX}
+\jlc{plot(args...; kwags...) = plot_pgfplotsx(args...; kwags...)}
+}
+
 
 \DeclareOption{pyplot}{
 	\newcommand{\plot}[2]{\jlc{savefig("#1.pdf")}\includegraphics[#2]{#1.pdf}}

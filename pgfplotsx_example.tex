@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage[pgfplotsx]{juliaplots}
+
+\begin{document}
+
+\begin{jlblock}
+	x = [1,2,3]
+	y = [2,4,1]
+
+	plot(@pgf TikzPicture(
+            Axis(
+                PlotInc({ no_marks },
+                    Table(; x = x, y = y)))))
+\end{jlblock}
+
+\plot{myfile}
+
+\end{document}
