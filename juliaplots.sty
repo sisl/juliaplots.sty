@@ -62,9 +62,10 @@
 
 \DeclareOption{pgfplotsx}{
 \DeclareRobustCommand{\plot}[1]{
-\IfFileExists{#1.tex}{}{\newwrite\file
-	\immediate\openout\file=#1.tex
-	\closeout\file}
+	\IfFileExists{#1.tex}{}{
+	\immediate\openoutputfile{#1.tex}{juliaplot}
+	\immediate\closeoutputstream{juliaplot}
+	}
 	\jlc{pgfsave("#1.tex", cur_plot; include_preamble=false)}\input{#1}}
 \jlc{using PGFPlotsX}
 \jlc{plot(args...; kwags...) = plot_pgfplotsx(args...; kwags...)}
